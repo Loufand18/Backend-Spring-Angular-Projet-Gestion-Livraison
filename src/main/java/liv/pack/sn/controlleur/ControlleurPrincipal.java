@@ -344,7 +344,7 @@ public ResponseEntity<Livreur> uplaodImage(@RequestParam("imageFile") MultipartF
 		   return new ResponseEntity<User>(Utilisateur,HttpStatus.OK);
 	  } 
 	
-	@PostMapping("/users")
+	@PostMapping("/utilisateurs")
 	public  ResponseEntity<User> createUtilisateur( @RequestBody User Utilisateur) {
 		
 		User newRv=servicesUser. AjouterUser(Utilisateur);
