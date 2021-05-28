@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +36,7 @@ private String type;
 @Column(name = "picByte" ,length = 696362)
     private byte[] picByte;
 
-@OneToMany(cascade = CascadeType.ALL )
+@OneToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER )
 Set<Trajet> trajet=new HashSet<>(); 
 
 

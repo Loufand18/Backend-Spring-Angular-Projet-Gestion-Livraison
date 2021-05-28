@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ public class Trajet {
 	@Column(nullable=false, updatable=false)
 	private String source;
 	private String destination;
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE}, fetch=FetchType.EAGER)
 	Set<Livreur> livreur=new HashSet<>();
 	
 	

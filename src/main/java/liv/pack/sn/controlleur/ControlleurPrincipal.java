@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.zip.Deflater;
 import java.io.ByteArrayOutputStream;
@@ -80,14 +81,7 @@ public class ControlleurPrincipal {
 		  this.servicesUser=servicesUser;
 	}
 	
-@PostMapping(value = "/upload", consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE })
-public Livreur upload( @RequestParam("file") MultipartFile file,@RequestParam("livreur") String livreur) {
-
-                Livreur userJson = servicesLivreur.getJson(livreur, file);
-                return userJson;
-}
-	
-@PostMapping(value="/sonuna",produces= "application/json")
+@PostMapping(value="/ajoutLivreur",produces= "application/json")
 public ResponseEntity<Livreur> uplaodImage(@RequestParam("imageFile") MultipartFile file,@RequestParam("nom") String nom,
 		   @RequestParam("prenom") String prenom,@RequestParam("numTel") String numTel,@RequestParam("adresse") String adresse,@RequestParam("email") String email,
 		   @RequestParam("moyen_transport") String moyen_transport) throws IOException {
@@ -159,24 +153,6 @@ public ResponseEntity<Livreur> uplaodImage(@RequestParam("imageFile") MultipartF
 	           return outputStream.toByteArray();
 	       }
 	   
-	   
-	
-
-
-	
-	/*@GetMapping(value = "/Trajet/{source}/{destination}")
-    public ResponseEntity<List<Trajet>>trajetLivreur(@PathVariable("source") String source,@PathVariable("destination") String destination) {
-		List<Trajet> rvs=trajetRepos.findBySourceAndDestination(source,destination);
-		return new ResponseEntity<List<Trajet>>(rvs,HttpStatus.OK);
-    }*/
-	 @GetMapping(path = { "/getImage/{id}" })
-	     public Photo getImage(@PathVariable("id") Long id) throws Exception {
-
-	         Livreur retrievedImage = livreurRepos.findById(id).get();
-	         Photo img = new Photo(retrievedImage.getPhoto(), retrievedImage.getType(),
-	                 decompressBytes(retrievedImage.getPicByte()));
-	         return img;
-	     }
 
 	@GetMapping("/chercherLivreur/{id}")
 	public ResponseEntity<Livreur>chercherRV(@PathVariable("id") Long id){
@@ -197,8 +173,10 @@ public ResponseEntity<Livreur> uplaodImage(@RequestParam("imageFile") MultipartF
 	}
 	
 	@PutMapping("/updateLivreur")
-	public ResponseEntity<Livreur> updateLivreur(@RequestParam("idlivreur")Long id,@RequestParam("imageFile") MultipartFile file,@RequestParam("nom") String nom,
-			   @RequestParam("prenom") String prenom,@RequestParam("numTel") String numTel,@RequestParam("adresse") String adresse,@RequestParam("email") String email,
+	public ResponseEntity<Livreur> updateLivreur(@RequestParam("idlivreur")Long id,@RequestParam("imageFile") MultipartFile file,
+			@RequestParam("nom") String nom,
+			   @RequestParam("prenom") String prenom,@RequestParam("numTel") String numTel,
+			   @RequestParam("adresse") String adresse,@RequestParam("email") String email,
 			   @RequestParam("moyen_transport") String moyen_transport) throws IOException {
 
 
@@ -219,11 +197,7 @@ public ResponseEntity<Livreur> uplaodImage(@RequestParam("imageFile") MultipartF
 	   }
 	
 	
-	@PutMapping("/updateLivreurOrig")
-	public ResponseEntity<Livreur>update(@RequestBody Livreur rv){
-		Livreur newRv=servicesLivreur.updateLivreur(rv);
-              return new ResponseEntity<Livreur>(rv,HttpStatus.OK);
-	}
+	
 	@PutMapping("/noterLivreur")
 	public ResponseEntity<Livreur>updateLivreur(@RequestParam("idlivreur")Long id,@RequestParam("note") String note){
 		Livreur rv=servicesLivreur.trouverLivreurById(id);
@@ -245,11 +219,11 @@ public ResponseEntity<Livreur> uplaodImage(@RequestParam("imageFile") MultipartF
 		             Livreur newRv=servicesLivreur.updateLivreur(rv);
               return new ResponseEntity<Livreur>(rv,HttpStatus.OK);
 	}
-	@PutMapping("/attribuerLivreurTrajet")
+	@PutMapping("/supprimerTrajetLivreur/id")
 	public void attribuerLivreurTrajet(@RequestParam("idLivreur") Long id1,@RequestParam("idTrajet") Long id2){
 		Livreur rv= servicesLivreur.trouverLivreurById(id1);
 		 Trajet tr=  servicesTrajet.trouvertrajetById(id2);
-		 Set<Trajet> trajet=new HashSet<>();
+		 Set<Trajet> trajet =new HashSet<>();
 		 rv.getTrajet().add(tr);
 		rv.setTrajet(rv.getTrajet());
 		         
@@ -318,11 +292,11 @@ public ResponseEntity<Livreur> uplaodImage(@RequestParam("imageFile") MultipartF
               return new ResponseEntity<Trajet>(rv,HttpStatus.OK);
 	}
 	
-	/*@GetMapping("/chercherTrajet/{id}")
+	@GetMapping("/chercherTrajet/{id}")
 	public ResponseEntity<Trajet>chercherTrajet(@PathVariable("id") Long id){
 		Trajet rvs=servicesTrajet.trouvertrajetById(id);
 		return new ResponseEntity<Trajet>(rvs,HttpStatus.OK);
-	}*/
+	}
 	
 	@PutMapping("/updateTrajet")
 	public ResponseEntity<Trajet>update(@RequestBody Trajet rv){
@@ -344,7 +318,7 @@ public ResponseEntity<Livreur> uplaodImage(@RequestParam("imageFile") MultipartF
 		   return new ResponseEntity<User>(Utilisateur,HttpStatus.OK);
 	  } 
 	
-	@PostMapping("/utilisateurs")
+	@PostMapping("/ajoutUtilisateur")
 	public  ResponseEntity<User> createUtilisateur( @RequestBody User Utilisateur) {
 		
 		User newRv=servicesUser. AjouterUser(Utilisateur);
@@ -371,6 +345,7 @@ public ResponseEntity<Livreur> uplaodImage(@RequestParam("imageFile") MultipartF
 	}
 	@DeleteMapping("/supprimerTrajet/{id}")
 	public void supprimerTrajet(@PathVariable("id") Long id){
+		             
 		servicesTrajet.supprimerByIdTrajet(id);
 		
 	}

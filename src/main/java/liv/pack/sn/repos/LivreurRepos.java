@@ -17,4 +17,5 @@ public interface LivreurRepos extends JpaRepository<Livreur, Long>{
 	//List<Trajet>findBySourceAndDestination(String source,String desti);
 	// @Query("SELECT n, a FROM livreur n JOIN n.trajet a WHERE n.source = :source AND n.destination = :destination")
 	  //  public List<Object[]> TrajetLivreur(@Param("source") String source, @Param("destination") String destination);
+	
 }
