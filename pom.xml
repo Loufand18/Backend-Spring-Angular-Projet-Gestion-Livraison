@@ -88,15 +88,12 @@
 				 <executions>
 				 <execution>
 				     <phase>deploy</phase>
-				     <goals>
-				           <goal>upload</goal>
-				     </goals>
 				     <configuration>
 				           <api>projet-spring-final</api>
 				           <owner>Loufand18</owner>
 				           <version>1.5.0</version>
-				           <inputFile>C:\Users\fallou\Documents\EclipseProjets\BackendProjetLivreur\petstore.json</inputFile>
-				            <!--inputFile>generated/swagger-ui/swagger.json</inputFile-->
+				           <!--inputFile>C:\Users\fallou\Documents\EclipseProjets\BackendProjetLivreur\petstore.json</inputFile-->
+				            <inputFile>generated/swagger-ui/swagger.json</inputFile>
 				     </configuration>
 				 </execution>
 				 </executions>
